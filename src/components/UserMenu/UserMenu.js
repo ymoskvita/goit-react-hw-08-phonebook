@@ -6,12 +6,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
-  const name = useSelector(authSelectors.getUsername);
+  const email = useSelector(authSelectors.getUserEmail);
 
   return (
     <div style={{ display: 'flex', alignItems: 'center',}}>
       <Avatar sx={{margin: 1}}/>
-      <Typography> Welcome, {name}</Typography>
+      <Typography>{email}</Typography>
       <IconButton color="info" aria-label="logout" size="small" onClick={() => dispatch(logOut())}>
         <LogoutIcon />
       </IconButton>

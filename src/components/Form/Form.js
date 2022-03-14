@@ -81,7 +81,7 @@ export default function Form() {
           required
           id={numberInputId}
           type="tel"
-          label="Name"
+          label="Number"
           name="number"
           value={number}
           onChange={handleChange}
