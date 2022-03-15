@@ -33,7 +33,7 @@ export default function ContactsList() {
     >
       {isLoading
         && <BallTriangle
-              color="#000"
+              color="#BDBDBD"
               height={50}
               width={50} />}
       <List

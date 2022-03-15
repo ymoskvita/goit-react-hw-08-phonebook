@@ -1,17 +1,17 @@
-import { Routes, Route } from "react-router-dom";
-import HomeView from "./HomeView/HomeView";
-import Register from './Register/Register';
-import Login from './Login/Login';
-import ContactsView from './ContactsView/ContactsView';
-import AppBar from "./AppBar";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, lazy, Suspense } from "react";
 import { fetchCurrentUser } from "redux/auth/auth-operation";
+import AppBar from "./AppBar";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
-import { useSelector } from "react-redux";
 import authSelectors from "redux/auth/auth-selectors";
-import { Container, CssBaseline } from "@mui/material";
+import { Container, CssBaseline, Skeleton } from "@mui/material";
+
+const HomeView = lazy(() => import("./HomeView/HomeView"));
+const Register = lazy(() => import("./Register/Register"));
+const Login = lazy(() => import("./Login/Login"));
+const ContactsView = lazy(() => import("./ContactsView/ContactsView"));
 
 export default function App() {
   const dispatch = useDispatch();
@@ -29,25 +29,38 @@ export default function App() {
           <CssBaseline />
           <Routes>
             <Route path="/" element={
-              <PublicRoute>
-                <HomeView />
-              </PublicRoute>
+              <Suspense
+                fallback={<Skeleton />}>
+                <PublicRoute>
+                  <HomeView />
+                </PublicRoute>
+              </Suspense>
             } />
             <Route path="/register" element={
-              <PublicRoute restricted redirectTo="/contacts">
-                <Register />
-              </PublicRoute>
+              <Suspense
+                fallback={<Skeleton />}>
+                <PublicRoute restricted redirectTo="/contacts">
+                  <Register />
+                </PublicRoute>
+              </Suspense>
             } />
             <Route path="/login" element={
-              <PublicRoute restricted redirectTo="/contacts">
-                <Login />
-              </PublicRoute>
+              <Suspense
+                fallback={<Skeleton />}>
+                <PublicRoute restricted redirectTo="/contacts">
+                  <Login />
+                </PublicRoute>
+              </Suspense>
             } />
             <Route path="/contacts" element={
-              <PrivateRoute>
-                <ContactsView />
-              </PrivateRoute>
+              <Suspense
+                fallback={<Skeleton />}>
+                 <PrivateRoute>
+                  <ContactsView />
+                </PrivateRoute>
+              </Suspense>
             } />
+            <Route path='*' element={<Navigate to="/" replace />} />
             </Routes>
         </Container>
       </>
